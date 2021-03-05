@@ -9,18 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
-import example.elective.chat.simple_recycler.SimpleChatAdapter
+import example.elective.chat.recycler.ChatAdapter
+import java.lang.IllegalStateException
 
 class ChatFragment : Fragment() {
 
     private lateinit var viewModel: ChatViewModel
 
     private lateinit var messages: RecyclerView
-    private lateinit var adapter: SimpleChatAdapter
+    private lateinit var adapter: ChatAdapter
 
     private lateinit var input: EditText
     private lateinit var send: Button
@@ -35,7 +35,7 @@ class ChatFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.chat_fragment_intermediate, container, false).apply {
+        return inflater.inflate(R.layout.chat_fragment_advanced, container, false).apply {
             messages = findViewById(R.id.messages)
             input = findViewById(R.id.input)
             send = findViewById(R.id.send)
@@ -45,10 +45,12 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = SimpleChatAdapter()
+        adapter = ChatAdapter()
         messages.adapter = adapter
 
-        viewModel.events.observe(viewLifecycleOwner) { events ->
+        viewModel.init(requireContext())
+
+        viewModel.messages.observe(viewLifecycleOwner) { events ->
             adapter.submitList(events)
             messages.scrollToPosition(events.size - 1)
         }
@@ -63,32 +65,5 @@ class ChatFragment : Fragment() {
         }
 
         viewModel.start()
-    }
-
-//    private fun buildMessageView(parent: ViewGroup): TextView {
-//        return LayoutInflater.from(requireContext())
-//            .inflate(R.layout.chat_item_text, parent, false) as TextView
-//    }
-//
-//    private fun bindMessageView(view: TextView, event: ToClientEvent) {
-//        view.text = when (event) {
-//            is Message -> "From ${event.senderId}: ${event.message}"
-//            is Connected -> "User ${event.id} connected"
-//            is Disconnected -> "User ${event.id} disconnected"
-//        }
-//    }
-
-    companion object {
-        private const val HOST_KEY = "host"
-        private const val PORT_KEY = "port"
-
-        fun newInstance(host: String, port: String): Fragment {
-            return ChatFragment().apply {
-                arguments = bundleOf(
-                    PORT_KEY to port,
-                    HOST_KEY to host
-                )
-            }
-        }
     }
 }
