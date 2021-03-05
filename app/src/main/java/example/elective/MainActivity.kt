@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, ChatFragment.newInstance("192.168.1.66", "8885"))
+                .replace(R.id.container, ChatFragment())
                 .commit()
         }
     }

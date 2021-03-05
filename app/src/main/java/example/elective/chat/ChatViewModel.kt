@@ -8,20 +8,19 @@ import okhttp3.*
 
 class ChatViewModel : ViewModel() {
 
-    private val events = mutableListOf<ToClientEvent>()
-    private val _messages = MutableLiveData<List<ToClientEvent>>()
-    val messages: LiveData<List<ToClientEvent>> = _messages
+    private val eventData = mutableListOf<ToClientEvent>()
+    private val _events = MutableLiveData<List<ToClientEvent>>()
+    val events: LiveData<List<ToClientEvent>> = _events
 
     private val client = OkHttpClient()
     private var websocket: WebSocket? = null
 
-
-    fun start(port: String, host: String) {
+    fun start(host: String = "192.168.1.66", port: String = "8885") {
         websocket?.close(OK_CODE, "Normal closure")
 
         val listener = ChatMessageListener { event ->
-            events.add(event)
-            _messages.postValue(events)
+            eventData.add(event)
+            _events.postValue(eventData)
         }
         val request = Request.Builder().url("ws://$host:$port").build()
 
