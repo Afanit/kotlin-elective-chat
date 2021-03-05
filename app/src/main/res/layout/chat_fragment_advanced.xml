@@ -38,7 +38,7 @@
 
         <Button
             android:id="@+id/send"
-            android:text="@string/chat_send_button_label"
+            android:text="@string/chat_send_button_label_emoji"
             android:textSize="32dp"
             android:layout_width="64dp"
             android:layout_height="64dp"

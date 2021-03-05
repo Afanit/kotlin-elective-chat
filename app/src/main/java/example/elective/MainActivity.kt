@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import example.elective.chat.ChatFragment
 import example.elective.chat.R
-import example.elective.welcome.WelcomeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,23 +12,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, WelcomeFragment.newInstance())
+                .replace(R.id.container, ChatFragment.newInstance("192.168.1.66", "8885"))
                 .commit()
-        }
-    }
-
-    fun goChat(host: String, port: String) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, ChatFragment.newInstance(host, port))
-            .addToBackStack("ChatFragment")
-            .commit()
-    }
-
-    override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStack()
-        } else {
-            finish()
         }
     }
 }

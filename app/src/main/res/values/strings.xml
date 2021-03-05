@@ -2,7 +2,8 @@
     <string name="app_name">ElectiveChat</string>
     <string name="chat_notification_join">ворвался в чат!</string>
     <string name="chat_notification_leave">покинул чат…</string>
-    <string name="chat_send_button_label">🚀</string>
+    <string name="chat_send_button_label">Отправить</string>
+    <string name="chat_send_button_label_emoji">🚀</string>
     <string name="welcome_default_host">192.168.1.66</string>
     <string name="welcome_default_port">8885</string>
     <string name="welcome_start_button_label">Начать</string>

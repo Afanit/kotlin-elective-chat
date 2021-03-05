@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     android:orientation="vertical"
-    tools:context="example.chatui.main.ChatFragment">
+    tools:context="example.elective.chat.ChatFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,9 +30,6 @@
             android:id="@+id/input"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/purple_200"
-            android:textColorHint="@color/white"
-            android:hint="Всем привет!"
             android:paddingEnd="8dp"
             android:paddingStart="8dp"
             android:textSize="24sp"
@@ -40,9 +37,10 @@
 
         <Button
             android:id="@+id/send"
-            android:text="🚀"
-            android:textSize="32dp"
-            android:layout_width="64dp"
+            android:text="@string/chat_send_button_label"
+            android:background="@color/purple_700"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
             android:layout_height="64dp"/>
     </LinearLayout>
 

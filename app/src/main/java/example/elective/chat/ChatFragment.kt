@@ -9,11 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
-import androidx.recyclerview.widget.RecyclerView
-import example.elective.chat.recycler.ChatAdapter
 import example.elective.protocol.Connected
 import example.elective.protocol.Disconnected
 import example.elective.protocol.Message
@@ -24,10 +23,7 @@ class ChatFragment : Fragment() {
 
     private lateinit var viewModel: ChatViewModel
 
-//    private lateinit var list: LinearLayout
-    private lateinit var messages: RecyclerView
-    private lateinit var adapter: ChatAdapter
-
+    private lateinit var list: LinearLayout
     private lateinit var input: EditText
     private lateinit var send: Button
 
@@ -41,8 +37,8 @@ class ChatFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.chat_fragment_advanced, container, false).apply {
-            messages = findViewById(R.id.messages)
+        return inflater.inflate(R.layout.chat_fragment_elementary, container, false).apply {
+            list = findViewById(R.id.list)
             input = findViewById(R.id.input)
             send = findViewById(R.id.send)
         }
@@ -54,22 +50,14 @@ class ChatFragment : Fragment() {
         val port = arguments?.getString(PORT_KEY) ?: throw IllegalStateException("Port argument must be")
         val host = arguments?.getString(HOST_KEY) ?: throw IllegalStateException("Host argument must be")
 
-//        viewModel.events.observe(viewLifecycleOwner) { events ->
-//            list.removeAllViews()
-//
-//            events.forEach { event ->
-//                list.addView(buildMessageView(list, event))
-//            }
-//        }
-
-        adapter = ChatAdapter()
-        messages.adapter = adapter
-
-        viewModel.init(requireContext())
-
         viewModel.messages.observe(viewLifecycleOwner) { events ->
-            adapter.submitList(events)
-            messages.scrollToPosition(events.size - 1)
+            list.removeAllViews()
+
+            events.forEach { event ->
+                val itemView = buildMessageView(list)
+                bindMessageView(itemView, event)
+                list.addView(itemView)
+            }
         }
 
         send.setOnClickListener {
