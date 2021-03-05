@@ -9,6 +9,6 @@ class EmojiMapper(context: Context) {
     }
 
     fun map(id: Int): String {
-        return emoji[id]
+        return emoji[id % emoji.size]
     }
 }
