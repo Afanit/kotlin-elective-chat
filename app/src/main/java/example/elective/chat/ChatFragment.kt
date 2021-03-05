@@ -45,6 +45,9 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val host = arguments?.getString(HOST_KEY) ?: throw IllegalStateException("Host argument must be")
+        val port = arguments?.getString(PORT_KEY) ?: throw IllegalStateException("Port argument must be")
+
         adapter = ChatAdapter()
         messages.adapter = adapter
 
@@ -64,6 +67,20 @@ class ChatFragment : Fragment() {
             send.isEnabled = !it.isNullOrEmpty()
         }
 
-        viewModel.start()
+        viewModel.start(host, port)
+    }
+
+    companion object {
+        private const val HOST_KEY = "host"
+        private const val PORT_KEY = "port"
+
+        fun newInstance(host: String, port: String): Fragment {
+            return ChatFragment().apply {
+                arguments = bundleOf(
+                    PORT_KEY to port,
+                    HOST_KEY to host
+                )
+            }
+        }
     }
 }
